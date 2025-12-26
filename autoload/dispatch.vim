@@ -308,7 +308,8 @@ function! dispatch#prepare_start(request, ...) abort
   else
     let exec .= 'sleep 1; '
   endif
-  let exec .= 'trap "trap \"\" INT; (exit 129); '. dispatch#complete_make(a:request) . '" INT; '
+  let exec .= "trap 'trap \"\" INT; (exit 130); ". dispatch#complete_make(a:request) . "' INT; "
+
   let exec .= a:0 ? a:1 : a:request.expanded
   let wait = a:0 > 1 ? a:2 : get(a:request, 'wait', 'error')
   let pause = s:subshell("printf '\e[1m--- Press ENTER to continue ---\e[0m\\n'; exec head -1")
